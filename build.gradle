@@ -1,0 +1,53 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.5'
+	id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// 1. 웹 서버 기능 (인터넷 주소 인식 및 API 개발 핵심)
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// 2. 데이터베이스 조작 기능 (JPA)
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// 3. 초간편 메모리 데이터베이스 (H2)
+	runtimeOnly 'com.h2database:h2'
+
+	// 4. 반복 코드를 줄여주는 도구 (Lombok)
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// 5. 테스트용 라이브러리 (기본 세팅)
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+bootRun {
+	systemProperty "file.encoding", "UTF-8"
+	systemProperty "sun.stdout.encoding", "UTF-8"
+	systemProperty "sun.stderr.encoding", "UTF-8"
+}
